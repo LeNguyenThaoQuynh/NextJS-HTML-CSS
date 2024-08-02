@@ -1,0 +1,59 @@
+<!-- Tiêu đề chính của trang -->
+<h1>Giỏ hàng của Thảo Quỳnh</h1>
+
+<!-- Container chính để chứa cả sản phẩm và giỏ hàng -->
+<div id="container">
+  
+  <!-- Container để hiển thị các sản phẩm -->
+  <div id="product-container">
+    
+    <!-- Duyệt qua từng sản phẩm trong danh sách products và tạo thẻ sản phẩm cho mỗi sản phẩm -->
+    <div *ngFor="let product of products; let i = index" class="product-card">  
+      
+      <!-- Hình ảnh của sản phẩm -->
+      <img [src]="product.imageUrl" alt="{{ product.name }}" class="product-image"/>
+      
+      <!-- Thông tin chi tiết của sản phẩm -->
+      <div class="product-details">
+        
+        <!-- Tên của sản phẩm -->
+        <h2 class="product-name">{{ product.name }}</h2>
+        
+        <!-- Giá của sản phẩm -->
+        <p class="product-price">{{ product.price }}</p>
+        
+        <!-- Số lượng sản phẩm còn lại trong kho -->
+        <p class="product-stock">Còn lại: {{ product.inStock }}</p>
+        
+        <!-- Nút để thêm sản phẩm vào giỏ hàng, bị vô hiệu hóa nếu số lượng còn lại là 0 -->
+        <button [disabled]="product.inStock == 0" (click)="addToCart(i)">Thêm vào giỏ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Container hiển thị giỏ hàng nếu có ít nhất một mặt hàng trong giỏ -->
+  <div id="cart-container" *ngIf="cart.length > 0">
+    
+    <!-- Tiêu đề của giỏ hàng -->
+    <h2>Giỏ hàng</h2>
+    
+    <!-- Duyệt qua từng mặt hàng trong giỏ hàng và tạo thẻ cho mỗi mặt hàng -->
+    <div *ngFor="let item of cart; let i = index" class="cart-item">
+      
+      <!-- Thông tin chi tiết của mặt hàng trong giỏ -->
+      <div class="cart-item-info">
+        
+        <p class="cart-item-name">{{ item.name }}</p>
+        
+        <p class="cart-item-price">{{ item.price }}</p>
+        
+        <p class="cart-item-quantity">Số lượng: {{ item.quantity }}</p>
+      </div>
+      
+      <button (click)="removeFromCart(i)" class="remove-button">Xóa</button>
+    </div>
+    
+    <!-- Tổng tiền của tất cả các mặt hàng trong giỏ -->
+    <h3 class="total-price">Tổng tiền: {{ getTotalPrice() }}</h3>
+  </div>
+</div>
